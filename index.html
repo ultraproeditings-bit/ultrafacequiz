@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Face Recognition Quiz</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/face-api.js"></script>
+  <script defer src="script.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9523490914794846"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="container">
+    <!-- Step 1: Registration -->
+    <section id="register-section" class="active">
+      <h1>🎯 Face Recognition Quiz</h1>
+      <p>Step 1: Register your face and name</p>
+      <video id="video" autoplay muted></video>
+      <button id="capture-btn">📸 Capture Face</button>
+      <input  style="border: none; width: 10%; padding: 10px; border-radius: 5px;"
+      type="text" id="username" placeholder="Enter your name" />
+      <canvas id="snapshot" width="320" height="240" style="display:block; margin-top:8px; border: 2px solid #ccc;"></canvas>
+      <button id="register-btn" style="display:block; margin:8px 0; padding:12px 20px; font-size:16px; border-radius:6px;">Register &amp; Start Quiz</button>
+      <p id="status"></p>
+    </section>
+<!-- === Quiz Section === -->
+<section id="quiz-section">
+  <h2 id="welcome"></h2>
+  <h3 id="progress"></h3>
+
+  <div id="question-box">
+    <p id="question"></p>
+    <div id="options"></div>
+  </div>
+
+  <!-- Feedback after saving answer -->
+  <div id="feedback"></div>
+
+  <!-- Save + Next buttons -->
+  <div class="nav-buttons">
+    <button id="save-btn">Save Answer</button>
+    <button id="next-btn">Next</button>
+  </div>
+</section>
+
+<!-- === Result Section === -->
+<section id="result-section">
+  <h2>Your Result</h2>
+  <p id="score"></p>
+
+  <h3>Question-wise Result</h3>
+  <div id="review-list"></div>
+
+  <button id="leaderboard-btn">View Leaderboard</button>
+  <button id="restart-btn">Restart</button>
+</section>
+
+<!-- === Leaderboard Section === -->
+<section id="leaderboard-section">
+  <h2>Leaderboard</h2>
+  <ul id="leaderboard"></ul>
+
+  <button id="restart-btn2">Restart</button>
+  <button id="reset-leaderboard-btn">Clear Leaderboard</button>
+</section>
+
+    <!-- Step 4: Leaderboard -->
+    <section id="leaderboard-section">
+      <h2>🏆 Leaderboard</h2>
+      <ol id="leaderboard"></ol>
+      <button id="restart-btn">Play Again 🔄</button>
+    </section>
+  </div>
+</body>
+</html>

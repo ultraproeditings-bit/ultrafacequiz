@@ -1,0 +1,255 @@
+body {
+  font-family: "Poppins", sans-serif;
+  color: rgb(255, 255, 255);
+  margin: 0;
+  text-align: center;
+  overflow-x: hidden;
+  background: rgb(0, 255, 30) url("Background.avif") no-repeat fixed center;
+  background-size: cover;
+  background-position: center;
+}
+
+.container {
+  max-width: 900px;
+  max-height: auto;
+  margin: 15px auto;
+  background: rgba(34, 0, 255, 0.558);
+  padding: 25px;
+  border-radius: 25px;
+  box-shadow: 0 25px 25px rgb(255, 255, 255);
+}
+
+video, canvas {
+  width: clamp(320px, 70%, 720px);
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 16/9;
+  border-radius: 20px;
+  border-color: #000000;
+  margin: 20px auto 0;
+  display: block;
+  box-shadow: 0 8px 20px rgb(0, 0, 0);
+}
+video {
+  object-fit: cover;
+}
+
+button {
+  background: #fff;
+  color: #000000;
+  border: 2px solid #000000;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 16px;
+  margin: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+button:hover {
+  background: #001f3f; /* Dark blue */
+  color: rgb(255, 255, 255); /* White */
+}
+
+#options button {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+}
+
+section {
+  display: none;
+  animation: fade 0.6s ease;
+}
+
+section.active {
+  display: block;
+}
+
+@keyframes fade {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+h1, h2 {
+  text-shadow: 5px 3px 7px rgba(0, 0, 0, 0.4);
+}
+ol {
+  text-align: left;
+  padding-left: 20px;
+}
+#leaderboard-section ol {
+  max-height: 300px;
+  overflow-y: auto;
+}
+#leaderboard-section li {
+  background: rgba(255, 255, 255, 0.8);
+  margin: 5px 0;
+  padding: 10px;
+  border-radius: 5px;
+}
+#restart-btn {
+  background: #ffcc00;
+}
+#restart-btn:hover {
+  background: #ffaa00;
+}
+#capture-btn {
+  background: #ffffff;
+}
+#capture-btn:hover {
+  background: #0059ff;
+}
+#start-btn {
+  background: #007bff;
+  color: white;
+}
+#start-btn:hover {
+  background: #0056b3;
+}
+#next-btn {
+  background: #28a745;
+  color: white;
+}
+#next-btn:hover {
+  background: #1e7e34;
+}
+#submit-name-btn {
+  background: #17a2b8;
+  color: white;
+}
+#submit-name-btn:hover {
+  background: #117a8b;
+}
+#timer {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.correct {
+  background-color: #28a745 !important;
+  color: white !important;
+}
+.incorrect {
+  background-color: #ff0019 !important;
+  color: white !important;
+}
+.disabled {
+  pointer-events: none;
+  opacity: 0.6;
+}
+#leaderboard-section h2 {
+  margin-bottom: 15px;
+}
+#leaderboard-section button {
+  margin-top: 15px;
+}
+#leaderboard-section button:hover {
+  background: #ffaa00;
+}
+/* Scrollbar styling for leaderboard */
+#leaderboard-section ol::-webkit-scrollbar {
+  width: 8px;
+}
+#leaderboard-section ol::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+#leaderboard-section ol::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+/* Responsive Design */
+@media (max-width: 600px) {
+  .container {
+    width: 90%;
+    padding: 20px;
+  }
+  button {
+    font-size: 14px;
+    padding: 10px 15px;
+  }
+}
+/* Selected option highlight */
+#options button.selected,
+#options button.selected:focus {
+  box-shadow: 0 0 15px rgb(212, 0, 255);
+  border: 15px solid rgb(212, 0, 255);
+  outline: none;
+}
+
+/* Feedback box */
+#feedback {
+  min-height: 40px;
+  margin-top: 10px;
+}
+
+.feedback-box {
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.feedback-correct {
+  background: rgba(0, 255, 0, 0.1);
+  border: 1px solid rgb(0, 255, 0);
+  color: rgb(0, 255, 0);
+}
+
+.feedback-wrong {
+  background: rgba(255, 0, 0, 0.1);
+  border: 1px solid #f00;
+  color: #f66;
+}
+
+/* Disable button style */
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Review result items */
+#review-list .review-item {
+  background: rgba(0, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px auto;
+  width: 90%;
+  text-align: left;
+}
+
+#review-list .correct {
+  border-left: 4px solid #0f0;
+}
+
+#review-list .wrong {
+  border-left: 4px solid #f00;
+}
+/* Make the feedback box more opaque */
+.feedback-box {
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 10px;
+  font-size: 16px;
+  backdrop-filter: blur(4px);
+}
+
+/* Wrong answer box: more opaque red */
+.feedback-wrong {
+  background: rgb(255, 0, 0);
+  border: 1px solid #ff4d4d;
+  color: #000000;
+  font-weight: bold;
+}
+
+/* Correct answer box: more opaque green */
+.feedback-correct {
+  background: rgb(0, 255, 0);
+  border: 1px solid #00ff00;
+  color: #000000;
+  font-weight: bold;
+}
+
+/* Make only the words "Correct answer" green */
+.correct-text {
+  color: #00ff00;
+  font-weight: bold;
+}
