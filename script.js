@@ -340,3 +340,5 @@ document.getElementById('reset-leaderboard-btn').addEventListener('click', funct
     localStorage.removeItem('leaderboard'); // Assuming leaderboard is stored in localStorage
     document.getElementById('leaderboard').innerHTML = ''; // Clear the displayed leaderboard
 });
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9523490914794846"
+     crossorigin="anonymous"></script>
