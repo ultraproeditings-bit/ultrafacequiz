@@ -24,46 +24,23 @@
       <button id="register-btn" style="display:block; margin:8px 0; padding:12px 20px; font-size:16px; border-radius:6px;">Register &amp; Start Quiz</button>
       <p id="status"></p>
     </section>
-<!-- === Quiz Section === -->
-<section id="quiz-section">
-  <h2 id="welcome"></h2>
-  <h3 id="progress"></h3>
+    <!-- Step 2: Quiz -->
+    <section id="quiz-section">
+      <h2 id="welcome"></h2>
+      <div id="question-box">
+        <h3 id="question"></h3>
+        <div id="options"></div>
+      </div>
+      <button id="next-btn">Next ➡️</button>
+      <div id="progress"></div>
+    </section>
 
-  <div id="question-box">
-    <p id="question"></p>
-    <div id="options"></div>
-  </div>
-
-  <!-- Feedback after saving answer -->
-  <div id="feedback"></div>
-
-  <!-- Save + Next buttons -->
-  <div class="nav-buttons">
-    <button id="save-btn">Save Answer</button>
-    <button id="next-btn">Next</button>
-  </div>
-</section>
-
-<!-- === Result Section === -->
-<section id="result-section">
-  <h2>Your Result</h2>
-  <p id="score"></p>
-
-  <h3>Question-wise Result</h3>
-  <div id="review-list"></div>
-
-  <button id="leaderboard-btn">View Leaderboard</button>
-  <button id="restart-btn">Restart</button>
-</section>
-
-<!-- === Leaderboard Section === -->
-<section id="leaderboard-section">
-  <h2>Leaderboard</h2>
-  <ul id="leaderboard"></ul>
-
-  <button id="restart-btn2">Restart</button>
-  <button id="reset-leaderboard-btn">Clear Leaderboard</button>
-</section>
+    <!-- Step 3: Result -->
+    <section id="result-section">
+      <h2>Your Score</h2>
+      <p id="score"></p>
+      <button id="leaderboard-btn">View Leaderboard 🏆</button>
+    </section>
 
     <!-- Step 4: Leaderboard -->
     <section id="leaderboard-section">
