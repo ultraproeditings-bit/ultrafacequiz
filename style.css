@@ -1,10 +1,10 @@
 body {
   font-family: "Poppins", sans-serif;
-  color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
   margin: 0;
   text-align: center;
   overflow-x: hidden;
-  background: rgb(0, 255, 30) url("Background.avif") no-repeat fixed center;
+  background: rgb(0, 255, 30) url("Background.jpg") no-repeat fixed center;
   background-size: cover;
   background-position: center;
 }
@@ -13,10 +13,10 @@ body {
   max-width: 900px;
   max-height: auto;
   margin: 15px auto;
-  background: rgba(34, 0, 255, 0.558);
+  background: rgb(84, 81, 81);
   padding: 25px;
   border-radius: 25px;
-  box-shadow: 0 25px 25px rgb(255, 255, 255);
+  box-shadow: 0 25px 25px rgb(255, 0, 0);
 }
 
 video, canvas {
@@ -46,8 +46,8 @@ button {
   transition: 0.3s;
 }
 button:hover {
-  background: #001f3f; /* Dark blue */
-  color: rgb(255, 255, 255); /* White */
+  background: #00aeff;
+  color: rgb(0, 229, 255);
 }
 
 #options button {
@@ -97,7 +97,7 @@ ol {
   background: #ffffff;
 }
 #capture-btn:hover {
-  background: #0059ff;
+  background: #ffffff;
 }
 #start-btn {
   background: #007bff;
@@ -130,7 +130,7 @@ ol {
   color: white !important;
 }
 .incorrect {
-  background-color: #ff0019 !important;
+  background-color: #dc3545 !important;
   color: white !important;
 }
 .disabled {
@@ -167,91 +167,6 @@ ol {
     font-size: 14px;
     padding: 10px 15px;
   }
-}
-/* Selected option highlight */
-#options button.selected,
-#options button.selected:focus {
-  box-shadow: 0 0 15px rgb(212, 0, 255);
-  border: 15px solid rgb(212, 0, 255);
-  outline: none;
-}
-
-/* Feedback box */
-#feedback {
-  min-height: 40px;
-  margin-top: 10px;
-}
-
-.feedback-box {
-  padding: 10px;
-  border-radius: 8px;
-  margin-top: 10px;
-}
-
-.feedback-correct {
-  background: rgba(0, 255, 0, 0.1);
-  border: 1px solid rgb(0, 255, 0);
-  color: rgb(0, 255, 0);
-}
-
-.feedback-wrong {
-  background: rgba(255, 0, 0, 0.1);
-  border: 1px solid #f00;
-  color: #f66;
-}
-
-/* Disable button style */
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-/* Review result items */
-#review-list .review-item {
-  background: rgba(0, 255, 255, 0.05);
-  border-radius: 10px;
-  padding: 10px;
-  margin: 10px auto;
-  width: 90%;
-  text-align: left;
-}
-
-#review-list .correct {
-  border-left: 4px solid #0f0;
-}
-
-#review-list .wrong {
-  border-left: 4px solid #f00;
-}
-/* Make the feedback box more opaque */
-.feedback-box {
-  padding: 12px;
-  border-radius: 10px;
-  margin-top: 10px;
-  font-size: 16px;
-  backdrop-filter: blur(4px);
-}
-
-/* Wrong answer box: more opaque red */
-.feedback-wrong {
-  background: rgb(255, 0, 0);
-  border: 1px solid #ff4d4d;
-  color: #000000;
-  font-weight: bold;
-}
-
-/* Correct answer box: more opaque green */
-.feedback-correct {
-  background: rgb(0, 255, 0);
-  border: 1px solid #00ff00;
-  color: #000000;
-  font-weight: bold;
-}
-
-/* Make only the words "Correct answer" green */
-.correct-text {
-  color: #00ff00;
-  font-weight: bold;
 }
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9523490914794846"
      crossorigin="anonymous"></script>
