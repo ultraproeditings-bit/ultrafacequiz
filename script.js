@@ -9,8 +9,8 @@ const usernameInput = document.getElementById("username");
 const ctx = snapshot.getContext("2d");
 
 navigator.mediaDevices.getUserMedia({ video: true })
-  .then(stream => video.srcObject = stream)
-  .catch(() => statusEl.textContent = "Camera access denied.");
+  .then((stream) => (video.srcObject = stream))
+  .catch(() => (statusEl.textContent = "Camera access denied."));
 
 let capturedImage = null;
 captureBtn.onclick = () => {
@@ -25,11 +25,11 @@ const quizSection = document.getElementById("quiz-section");
 const resultSection = document.getElementById("result-section");
 const leaderboardSection = document.getElementById("leaderboard-section");
 
-function showSection(sec) {
-  [registerSection, quizSection, resultSection, leaderboardSection].forEach(
-    s => s.classList.remove("active")
+function showSection(section) {
+  [registerSection, quizSection, resultSection, leaderboardSection].forEach((s) =>
+    s.classList.remove("active")
   );
-  sec.classList.add("active");
+  section.classList.add("active");
 }
 
 // === Full Quiz Data (50 Maths + 50 Indian Politics) ===
@@ -63,7 +63,7 @@ const allQuestions = [
   { q: "How many degrees are there in a right angle?", o: ["45°", "60°", "90°", "180°"], a: 2 },
   { q: "Find the perimeter of a triangle with sides 4, 5, and 6.", o: ["12", "13", "14", "15"], a: 3 },
   { q: "If 5 pencils cost ₹25, find cost of 1 pencil.", o: ["₹3", "₹4", "₹5", "₹6"], a: 2 },
-  { q: "Simplify: 100 ÷ 4 + 15", o: ["30", "35", "40", "50"], a: 2 },
+  { q: "Simplify: 100 ÷ 4 + 10", o: ["30", "35", "40", "50"], a: 2 },
   { q: "Find the missing number: 7, 14, 21, ?", o: ["24", "25", "28", "30"], a: 2 },
   { q: "Find 15% of 300.", o: ["30", "35", "40", "45"], a: 3 },
   { q: "If 5x = 25, find x.", o: ["4", "5", "6", "7"], a: 1 },
@@ -76,7 +76,7 @@ const allQuestions = [
   { q: "Find the area of rectangle 6cm × 4cm.", o: ["20", "22", "24", "26"], a: 2 },
   { q: "Find the cube root of 27.", o: ["2", "3", "4", "5"], a: 1 },
   { q: "Simplify: 8² – 4²", o: ["36", "40", "48", "60"], a: 2 },
-  { q: "What is 100 – 45 + 25?", o: ["70", "75", "80", "85"], a: 2 },
+  { q: "What is 100 – 45 + 20?", o: ["70", "75", "80", "85"], a: 2 },
   { q: "Find value of 2x if x = 8.", o: ["14", "15", "16", "18"], a: 2 },
   { q: "Convert 500 cm to meters.", o: ["4", "5", "6", "7"], a: 1 },
   { q: "Simplify: (2 + 3) × (4 – 1)", o: ["12", "13", "14", "15"], a: 0 },
@@ -139,149 +139,56 @@ const allQuestions = [
   { q: "How many states are there in India (2025)?", o: ["28", "29", "30", "31"], a: 0 }
 ];
 
-// === Pick 10 Random Questions (from allQuestions) ===
-function pickRandomQuestions(arr, n = 10) {
-  const copy = arr.slice(); // avoid mutating original
-  for (let i = copy.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [copy[i], copy[j]] = [copy[j], copy[i]];
-  }
-  return copy.slice(0, n);
-}
-
-const quiz = pickRandomQuestions(allQuestions, 10);
+// === Pick 10 Random Questions ===
+const quiz = allQuestions.sort(() => Math.random() - 0.5).slice(0, 10);
+ 
 
 // === Quiz Logic ===
-let currentQ = 0;
-let score = 0;
-let selectedIndex = null;
-let hasSavedCurrent = false;
-const results = [];
-
+let currentQ = 0, score = 0;
 const questionEl = document.getElementById("question");
 const optionsEl = document.getElementById("options");
 const progressEl = document.getElementById("progress");
 const welcomeEl = document.getElementById("welcome");
-const feedbackEl = document.getElementById("feedback");
-const reviewList = document.getElementById("review-list");
-
-const saveBtn = document.getElementById("save-btn");
-const nextBtn = document.getElementById("next-btn");
 
 function loadQuestion() {
   const q = quiz[currentQ];
   questionEl.textContent = q.q;
   optionsEl.innerHTML = "";
-  feedbackEl.innerHTML = "";
-  selectedIndex = null;
-  hasSavedCurrent = false;
-
-  saveBtn.disabled = false;
-  nextBtn.disabled = true;
-
   q.o.forEach((opt, i) => {
     const btn = document.createElement("button");
     btn.textContent = opt;
-
     btn.onclick = () => {
-      if (hasSavedCurrent) return; // cannot change after save
-      selectedIndex = i;
-
-      // Highlight selected
-      Array.from(optionsEl.querySelectorAll("button")).forEach(b =>
-        b.classList.remove("selected")
-      );
-      btn.classList.add("selected");
+      if (i === q.a) score++;
+      nextQuestion();
     };
-
     optionsEl.appendChild(btn);
   });
-
   progressEl.textContent = `Question ${currentQ + 1} of ${quiz.length}`;
 }
 
-// Save answer logic
-saveBtn.onclick = () => {
-  if (hasSavedCurrent) return;
-
-  if (selectedIndex === null) {
-    feedbackEl.innerHTML = `
-      <div class="feedback-box feedback-wrong">
-        Please select an option before saving.
-      </div>`;
-    return;
-  }
-
-  hasSavedCurrent = true;
-  const q = quiz[currentQ];
-  const isCorrect = (selectedIndex === q.a);
-  if (isCorrect) score++;
-
-  results.push({
-    question: q.q,
-    userAnswer: q.o[selectedIndex],
-    correctAnswer: q.o[q.a],
-    isCorrect
-  });
-
-  feedbackEl.innerHTML = `
-    <div class="feedback-box ${isCorrect ? "feedback-correct" : "feedback-wrong"}">
-      ${isCorrect
-        ? "✅ Correct!"
-        : `❌ Wrong. Correct answer: <b>${q.o[q.a]}</b>`}
-    </div>
-  `;
-
-  // Disable options and save
-  Array.from(optionsEl.querySelectorAll("button")).forEach(b => b.disabled = true);
-  saveBtn.disabled = true;
-  nextBtn.disabled = false;
-};
-
-// Next button logic
-nextBtn.onclick = () => {
-  if (!hasSavedCurrent) {
-    feedbackEl.innerHTML = `
-      <div class="feedback-box feedback-wrong">
-        Please save your answer before going to the next question.
-      </div>`;
-    return;
-  }
+function nextQuestion() {
   currentQ++;
   if (currentQ < quiz.length) {
     loadQuestion();
   } else {
     showResult();
   }
-};
+}
 
 function showResult() {
   showSection(resultSection);
-  document.getElementById("score").textContent =
-    `${usernameInput.value}, you scored ${score} / ${quiz.length}`;
-
-  reviewList.innerHTML = results
-    .map((r, index) => `
-      <div class="review-item ${r.isCorrect ? "correct" : "wrong"}">
-        <h4>Q${index + 1}. ${r.question}</h4>
-        <p><b>Your answer:</b> ${r.userAnswer}</p>
-        <p><b>Correct answer:</b> ${r.correctAnswer}</p>
-        <p>Status: ${r.isCorrect ? "✅ Correct" : "❌ Wrong"}</p>
-      </div>
-    `)
-    .join("");
-
-  saveResult(usernameInput.value.trim(), capturedImage, score);
+  document.getElementById("score").textContent = `${usernameInput.value}, you got ${score} / ${quiz.length}!`;
+  saveResult(usernameInput.value, capturedImage, score);
 }
 
-// === Registration ===
+// === Registration & Start ===
 registerBtn.onclick = () => {
   const name = usernameInput.value.trim();
   if (!name || !capturedImage) {
     statusEl.textContent = "Please enter your name and capture your face!";
     return;
   }
-
+  localStorage.setItem("user", JSON.stringify({ name, capturedImage }));
   welcomeEl.textContent = `Welcome, ${name}!`;
   showSection(quizSection);
   loadQuestion();
@@ -291,54 +198,143 @@ registerBtn.onclick = () => {
 const leaderboardBtn = document.getElementById("leaderboard-btn");
 const leaderboardList = document.getElementById("leaderboard");
 const restartBtn = document.getElementById("restart-btn");
-const restartBtn2 = document.getElementById("restart-btn2");
-const resetLeaderboardBtn = document.getElementById("reset-leaderboard-btn");
+
+// Ensure saved results get a timestamp and make leaderboard show only last 30 minutes
+window.addEventListener("DOMContentLoaded", () => {
+  // Patch saveResult to add timestamp to the most recently saved entry
+  if (typeof window.saveResult === "function") {
+    const _origSave = window.saveResult;
+    window.saveResult = (name, image, score) => {
+      _origSave(name, image, score);
+      try {
+        const data = JSON.parse(localStorage.getItem("quiz_results") || "[]");
+        if (data.length > 0) {
+          data[data.length - 1].ts = Date.now();
+          localStorage.setItem("quiz_results", JSON.stringify(data));
+        }
+      } catch (e) {
+        // ignore malformed storage
+      }
+    };
+  }
+
+  // Replace renderLeaderboard to show only records from the last 30 minutes
+  window.renderLeaderboard = () => {
+    const THIRTY_MIN = 30 * 60 * 1000;
+    const cutoff = Date.now() - THIRTY_MIN;
+    const raw = JSON.parse(localStorage.getItem("quiz_results") || "[]");
+
+    // Keep only entries with a timestamp within the last 30 minutes
+    const recent = raw.filter((r) => r.ts && r.ts >= cutoff);
+
+    // Sort by score desc and take top 10
+    const sorted = recent.sort((a, b) => b.score - a.score).slice(0, 10);
+
+    function timeAgo(ts) {
+      const diff = Date.now() - ts;
+      const mins = Math.floor(diff / 60000);
+      if (mins < 1) return "Just now";
+      if (mins === 1) return "1 min ago";
+      return `${mins} mins ago`;
+    }
+
+    leaderboardList.innerHTML = sorted
+      .map((r, index) => {
+        let medal = "";
+        if (index === 0) medal = "🥇";
+        else if (index === 1) medal = "🥈";
+        else if (index === 2) medal = "🥉";
+        else medal = `#${index + 1}`;
+
+        return `
+          <li style="
+            display:flex;
+            align-items:center;
+            gap:10px;
+            margin:10px 0;
+            background:rgba(255,255,255,0.15);
+            padding:12px 16px;
+            border-radius:12px;
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+          ">
+            <span style="font-size:24px;width:40px;text-align:center;">${medal}</span>
+            <img src="${r.image}" alt="${r.name}" 
+              style="width:60px;height:60px;border-radius:50%;border:2px solid white;object-fit:cover;">
+            <div style="flex:1;text-align:left;">
+              <div style="font-weight:600;font-size:18px;">${r.name}</div>
+              <div style="font-size:12px;opacity:0.85;">${timeAgo(r.ts)}</div>
+            </div>
+            <strong style="font-size:18px;">${r.score} / ${quiz.length}</strong>
+          </li>
+        `;
+      })
+      .join("");
+
+    // If nothing recent, show a friendly message
+    if (sorted.length === 0) {
+      leaderboardList.innerHTML = `<li style="padding:20px;text-align:center;opacity:0.9;">No records in the last 30 minutes.</li>`;
+    }
+  };
+});
 
 leaderboardBtn.onclick = () => {
   showSection(leaderboardSection);
   renderLeaderboard();
 };
 
-restartBtn.onclick = () => window.location.reload();
-restartBtn2.onclick = () => window.location.reload();
-
-resetLeaderboardBtn.onclick = () => {
-  if (confirm("Clear all leaderboard data?")) {
-    localStorage.removeItem("quiz_results");
-    leaderboardList.innerHTML = "";
-  }
+restartBtn.onclick = () => {
+  currentQ = 0;
+  score = 0;
+  showSection(registerSection);
 };
 
+// === Save Results with Photo ===
 function saveResult(name, image, score) {
   const data = JSON.parse(localStorage.getItem("quiz_results") || "[]");
   data.push({ name, image, score });
   localStorage.setItem("quiz_results", JSON.stringify(data));
 }
 
+// === Render Leaderboard ===
 function renderLeaderboard() {
   const data = JSON.parse(localStorage.getItem("quiz_results") || "[]");
   const sorted = data.sort((a, b) => b.score - a.score).slice(0, 10);
 
   leaderboardList.innerHTML = sorted
-    .map(r => `
-      <li>
-        <img src="${r.image}">
-        <span>${r.name}</span>
-        <strong>${r.score}/10</strong>
-      </li>
-    `)
+    .map((r, index) => {
+      let medal = "";
+      if (index === 0) medal = "🥇";
+      else if (index === 1) medal = "🥈";
+      else if (index === 2) medal = "🥉";
+      else medal = `#${index + 1}`;
+
+      return `
+        <li style="
+          display:flex;
+          align-items:center;
+          gap:10px;
+          margin:10px 0;
+          background:rgba(255,255,255,0.15);
+          padding:12px 16px;
+          border-radius:12px;
+          backdrop-filter: blur(6px);
+          border: 1px solid rgba(255,255,255,0.2);
+          box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        ">
+          <span style="font-size:24px;width:40px;text-align:center;">${medal}</span>
+          <img src="${r.image}" alt="${r.name}" 
+            style="width:60px;height:60px;border-radius:50%;border:2px solid white;object-fit:cover;">
+          <span style="flex:1;text-align:left;font-weight:600;font-size:18px;">${r.name}</span>
+          <strong style="font-size:18px;">${r.score} / 10</strong>
+        </li>
+      `;
+    })
     .join("");
 }
-// Add your event listeners here
-document.getElementById('restart-btn-leaderboard').addEventListener('click', function() {
-    // Logic to restart the quiz
-    location.reload(); // Reloads the page to restart
-});
+// Initial Section
+showSection(registerSection);
 
-document.getElementById('reset-leaderboard-btn').addEventListener('click', function() {
-    // Logic to clear the leaderboard
-    localStorage.removeItem('leaderboard'); // Assuming leaderboard is stored in localStorage
-    document.getElementById('leaderboard').innerHTML = ''; // Clear the displayed leaderboard
-});
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9523490914794846"
      crossorigin="anonymous"></script>
